@@ -47,6 +47,17 @@ public class DollarsAndCents {
 	 */
 	public DollarsAndCents(long dlrs, int cts) {
 // use the ideas from the previous constructors to see how to do this
+		if (cts < 0 || dlrs <0) throw new IllegalArgumentException("argument cannot be negative (constructor)");//exception thrower
+		if(cts>100){
+			DOLLARS=dlrs+(cts/100);
+			CENTS=cts%100;
+
+		}//end of if
+		else{
+			DOLLARS=dlrs;
+			CENTS=cts;
+		}//end of else
+
 	}
 	
 	/**
@@ -58,6 +69,9 @@ public class DollarsAndCents {
 	public DollarsAndCents(DollarsAndCents dc) {
 // just copy the DOLLARS and CENTS values from dc. Even though the fields are private
 // you CAN access dc.DOLLARS and dc.CENTS
+		DOLLARS=dc.DOLLARS;
+		CENTS=dc.CENTS;
+
 	}
 	
 	/**
@@ -66,6 +80,8 @@ public class DollarsAndCents {
 	public DollarsAndCents() {
 // set DOLLARS and CENTS to 0, final fields cannot be initialized since the constructor may
 // change them
+		DOLLARS=0;
+		CENTS=0;
 	}
 
 	/**
@@ -82,6 +98,16 @@ public class DollarsAndCents {
 // add the DOLLARS and CENTS from the dcs elements to those local
 // variables. Use these local variables to make the return value
 // the constructor will adjust the CENTS to be less than 100
+		int totalCents=CENTS;
+		long totalDollars=DOLLARS;
+		for (int i=0; i<dcs.length; i++){
+			totalCents=dcs[i].CENTS+totalCents;
+			totalDollars=dcs[i].DOLLARS+totalDollars;
+		}//end of for
+		totalDollars=totalDollars+totalCents/100;
+		totalCents=totalCents%100;
+		DollarsAndCents newAccount= new DollarsAndCents(totalDollars,totalCents);
+		return newAccount;
 	}
 	
 //BY THE WAY, the following method suggests we should define an equals method but
@@ -99,6 +125,15 @@ public class DollarsAndCents {
 // if dollars is equal to dc.dollars then if cents is less
 // than dc.cents the return value is true
 // otherwise the return value is false
+		if(DOLLARS<dc.DOLLARS){
+			return true;
+		}
+		else if(DOLLARS==dc.DOLLARS && CENTS<dc.CENTS){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	/**
@@ -123,6 +158,24 @@ public class DollarsAndCents {
 // adjust dlrs and cts to make cts positive if necessary.
 // the return value is set to a new object with arguments dlrs and cts
 // else it is a new object with its fields equal to 0.
+ 	DollarsAndCents	returnValue=null;
+		long dlrs=0;
+		int cts=0;
+		if (DOLLARS!=dc.DOLLARS || CENTS!=dc.CENTS){ 
+			if(!dc.lessThan(this)){
+				throw new IllegalArgumentException("argument cannot be negative");//exception thrower
+			}
+		}
+
+		dlrs=DOLLARS-dc.DOLLARS;
+		cts=CENTS-dc.CENTS;
+		while(cts<0){
+			dlrs=dlrs-1;
+			cts=cts+100;
+		}
+		
+		returnValue=new DollarsAndCents(dlrs,cts);
+		return returnValue;
  	}
 
 	/**
@@ -138,6 +191,19 @@ public class DollarsAndCents {
 // double temp = (d+c/100.0)*factor;
 // the return value will have (long)temp for dollars and
 // (int)Math.round((temp - (long)temp)*100) for cents;
+
+	long d=DOLLARS;
+	int c=CENTS;
+	long finalD;
+	int finalC;
+// This computation must be done with doubles
+	double temp = (d+c/100.0)*factor;
+// the return value will have (long)temp for dollars and
+	finalC=(int)Math.round((temp - (long)temp)*100);
+	finalD=(long) temp;
+// (int)Math.round((temp - (long)temp)*100) for cents;
+	DollarsAndCents returnVal= new DollarsAndCents(finalD,finalC);
+	return returnVal;
 	}
 	
 	public String toString() {
@@ -148,5 +214,6 @@ public class DollarsAndCents {
 		} else {
 				retVal += "." + CENTS;
 		}
+		return retVal;
 	}	
 }
