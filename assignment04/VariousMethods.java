@@ -46,6 +46,8 @@ return returnValue;
 }//end of minCount
 
 
+
+
 public static double justAnExercise(double cap, char initial, BankAccount[] arr){
 
 double returnvalue=-1.0;
@@ -57,6 +59,8 @@ double returnvalue=-1.0;
 			int currentId=arr[i].getID();
 			Person currentPerson=arr[i].getCustomer();
 			String currentName=currentPerson.getName();
+			String lowerName=currentName.toLowerCase();
+			char lowerInit=Character.toLowerCase(initial);
 
 			if(i%3==0 && currentBalance<cap){
 				returnvalue=currentBalance;
@@ -65,7 +69,7 @@ double returnvalue=-1.0;
 				returnvalue=currentBalance;
 			}
 
-			if(i%3==2 && currentName.charAt(0)==initial){
+			if(i%3==2 && lowerName.charAt(0)==lowerInit){
 				returnvalue=currentBalance;
 			}
 			}//end of if
