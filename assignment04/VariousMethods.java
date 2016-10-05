@@ -35,10 +35,12 @@ int returnValue=0;
 if(list!=null && list.size()>0){
 for (int i=0; i<list.size();i++){
 	BankAccount currentAccount=list.get(i);
+	if(currentAccount!=null){
 	double currentBalance=currentAccount.getBalance();
 		if(currentBalance>min){
 			returnValue++;
 		}
+	}
 }//end of for
 }//end of if
 else{returnValue=-1;};
@@ -51,6 +53,7 @@ return returnValue;
 public static double justAnExercise(double cap, char initial, BankAccount[] arr){
 
 double returnvalue=-1.0;
+
 	if (arr!=null && arr.length>0 ){
 
 		for(int i=0; i<arr.length; i++){
@@ -67,10 +70,12 @@ double returnvalue=-1.0;
 			}
 			if(i%3==1 && currentId%2==0){
 				returnvalue=currentBalance;
+
 			}
 
 			if(i%3==2 && lowerName.charAt(0)==lowerInit){
 				returnvalue=currentBalance;
+
 			}
 			}//end of if
 
@@ -102,7 +107,7 @@ return returnvalue;
 
  		}//end of for
  	}//end of if 
- 	return returnValue;
+  	return returnValue;
  }//end of function
 
 
