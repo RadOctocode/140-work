@@ -56,10 +56,55 @@ public static boolean permutation2(String s1, String s2){
 return returnValue;
 }//end of permutation2
 
+
+public static boolean permutation3(String s1, String s2){
+	s1=s1.toLowerCase();
+	s2=s2.toLowerCase();
+	Map<Character, MyChCounter> counter1 = new TreeMap<>();
+	Map<Character, MyChCounter> counter2 = new TreeMap<>();
+
+	for (char c : s1.toCharArray()){
+		if(Character.isLetter(c)){
+			if(counter1.containsKey(c)){
+				(counter1.get(c)).increment();
+
+			}//end of contains key
+
+		else{
+			 counter1.put(c, new MyChCounter(c));
+		}
+
+		}//end of is letter
+	}//end of for
+
+
+
+	for (char c : s2.toCharArray()){
+		if(Character.isLetter(c)){
+			if(counter2.containsKey(c)){
+				(counter2.get(c)).increment();
+			}//end of contains key
+
+		else{
+			 counter2.put(c, new MyChCounter(c));
+		}
+
+		}//end of is letter
+	}//end of for
+
+
+
+
+	return counter1.equals(counter2);
+}//end of permutation3
+
 public static void main(String [] args){
  System.out.println(permutation1("Here's the cinema", "The Iceman's here"));
-  System.out.println(permutation2("Here's the cinema", "The Iceman's here"));
-
+ System.out.println(permutation2("Here's the cinema", "The Iceman's here"));
+ System.out.println(permutation3("Here's the cinema", "The Iceman's here"));
+ System.out.println(permutation3("Here's the machine", "The Iceman's here"));
+ System.out.println(permutation2("Here's the machine", "The Iceman's here"));
+ System.out.println(permutation1("Here's the machine", "The Iceman's here"));
 
 
 
@@ -67,3 +112,27 @@ public static void main(String [] args){
 }//end of main
 
 }//end of class
+
+class MyChCounter {
+    char c;
+    int count = 1;
+    MyChCounter(char c1) {
+        c = c1;
+    }
+    void increment() {
+        count++;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        boolean retVal = false;
+        if(obj != null && getClass() == obj.getClass()) {
+            MyChCounter m = (MyChCounter)obj;
+            retVal = (c == m.c && count == m.count);
+        }
+        return retVal;
+    }        
+    @Override
+    public int hashCode() {
+        return Character.hashCode(c)*31 + Integer.hashCode(count);
+    }
+}//end of MyChCounter
